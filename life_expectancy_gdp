@@ -1,0 +1,59 @@
+# importing pandas library as pd
+import pandas as pd
+# import seaborn library as sns
+import seaborn as sns
+# import matplotlib library as plt
+import matplotlib.pyplot as plt
+# import numpy library as np
+import numpy as np
+
+# loading data frame from csv file
+data_frame = pd.read_csv('all_data.csv')
+
+# rename data frame column
+data_frame.rename(columns = {'Life expectancy at birth (years)':'LEAB'}, inplace = True)
+print(data_frame.head())
+
+# first plot how life expectancy increased over time in the six nations
+ax = plt.subplots(figsize=(15, 6)) 
+ax = sns.pointplot(x="Year", y="LEAB", hue = "Country", data=data_frame)
+ax.set(ylabel="Life expectancy at birth (years)", xlabel="Year", title="Life expectancy increased over time in the six nations")
+plt.show()
+plt.clf()
+
+# second plot how GDP increased over time in the six nations
+ax = plt.subplots(figsize=(15, 6)) 
+ax = sns.pointplot(x="Year", y="GDP", hue = "Country", data=data_frame)
+ax.set(ylabel="GDP", xlabel="Year", title="How GDP increased over time in the six nations")
+plt.show()
+plt.clf()
+
+# third plot looking for a correlation between GDP and life expectancy of a country
+ax = plt.subplots(figsize=(15, 6))
+ax = sns.scatterplot(x='GDP', y='LEAB', hue='Country', data=data_frame)
+plt.title('Correlation between GDP and life expectancy of a country')
+plt.xlabel('Gross Domestic Product (GDP)')
+plt.ylabel('Life Expectancy at Birth (LEAB)')
+plt.show()
+plt.clf()
+
+# Calculate the average values grouped by the 'Country' column
+average_values = data_frame.groupby('Country')['LEAB'].mean().reset_index()
+
+# Create a bar plot using seaborn
+ax = plt.subplots(figsize=(15, 6))
+ax = sns.barplot(x='Country', y='LEAB', data=average_values, palette='viridis')
+plt.xlabel('Country')
+plt.ylabel('LEAB')
+plt.title('Average life expectancy in these nations')
+plt.show()
+plt.clf()
+
+
+ax = plt.subplots(figsize=(15, 6))
+ax = sns.histplot(data_frame.LEAB, kde=True, color='skyblue')
+plt.xlabel('Values')
+plt.ylabel('LEAB')
+plt.title('LEAB Distribution')
+plt.show()
+plt.clf()
